@@ -1,17 +1,14 @@
 {
   "name": "xray-tunnel",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/devcontainers/features/sshd:1": {
-      "version": "latest"
-    }
+  "build": {
+    "dockerfile": "../Dockerfile"
   },
   "forwardPorts": [10000],
-  "postCreateCommand": "sudo apt-get install -y supervisor && curl -sL https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip -o /tmp/xray.zip && unzip -o /tmp/xray.zip -d /tmp/xray && sudo mv /tmp/xray/xray /usr/local/bin/xray && sudo mkdir -p /etc/xray && sudo cp /workspaces/xray-tunnel/config.json /etc/xray/config.json && printf '[program:xray]\ncommand=/usr/local/bin/xray run -config /etc/xray/config.json\nautostart=true\nautorestart=true\nstdout_logfile=/tmp/xray.log\nstderr_logfile=/tmp/xray.err\n' | sudo tee /etc/supervisor/conf.d/xray.conf && sudo supervisord -c /etc/supervisor/supervisord.conf",
   "portsAttributes": {
     "10000": {
       "label": "Xray VMess",
       "onAutoForward": "silent"
     }
-  }
+  },
+  "overrideCommand": false
 }
