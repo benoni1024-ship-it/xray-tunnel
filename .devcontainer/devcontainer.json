@@ -1,0 +1,14 @@
+{
+  "name": "xray-tunnel",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "forwardPorts": [10000],
+  "postStartCommand": "xray run -config /etc/xray/config.json &",
+  "portsAttributes": {
+    "10000": {
+      "label": "Xray VMess",
+      "onAutoForward": "silent"
+    }
+  }
+}
