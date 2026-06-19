@@ -1,14 +1,12 @@
 {
   "name": "xray-tunnel",
-  "build": {
-    "dockerfile": "../Dockerfile"
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {"version": "latest"}
   },
   "forwardPorts": [10000],
+  "postStartCommand": "bash /workspaces/xray-tunnel/start.sh",
   "portsAttributes": {
-    "10000": {
-      "label": "Xray VMess",
-      "onAutoForward": "silent"
-    }
-  },
-  "overrideCommand": false
+    "10000": {"label": "Xray VMess", "onAutoForward": "silent"}
+  }
 }
