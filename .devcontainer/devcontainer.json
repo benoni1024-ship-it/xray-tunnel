@@ -7,7 +7,7 @@
     }
   },
   "forwardPorts": [10000],
-  "postAttachCommand": "curl -sL https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip -o /tmp/xray.zip && unzip -o /tmp/xray.zip -d /tmp/xray && sudo mv /tmp/xray/xray /usr/local/bin/xray && sudo mkdir -p /etc/xray && sudo cp /workspaces/xray-tunnel/config.json /etc/xray/config.json && sudo xray run -config /etc/xray/config.json > /tmp/xray.log 2>&1 &",
+  "postCreateCommand": "curl -sL https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip -o /tmp/xray.zip && unzip -o /tmp/xray.zip -d /tmp/xray && sudo mv /tmp/xray/xray /usr/local/bin/xray && sudo mkdir -p /etc/xray && sudo cp /workspaces/xray-tunnel/config.json /etc/xray/config.json && printf '[Unit]\nDescription=Xray\nAfter=network.target\n[Service]\nExecStart=/usr/local/bin/xray run -config /etc/xray/config.json\nRestart=always\n[Install]\nWantedBy=multi-user.target\n' | sudo tee /etc/systemd/system/xray.service && sudo systemctl daemon-reload && sudo systemctl enable xray && sudo systemctl start xray",
   "portsAttributes": {
     "10000": {
       "label": "Xray VMess",
